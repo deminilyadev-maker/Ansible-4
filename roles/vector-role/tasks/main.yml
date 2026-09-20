@@ -1,0 +1,18 @@
+---
+- name: Create Vector directory
+  ansible.builtin.file:
+    path: /opt/vector
+    state: directory
+    mode: "0755"
+
+- name: Download Vector
+  ansible.builtin.get_url:
+    url: "https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-x86_64-unknown-linux-musl.tar.gz"
+    dest: "/tmp/vector-{{ vector_version }}.tar.gz"
+    mode: "0644"
+
+- name: Unarchive Vector
+  ansible.builtin.unarchive:
+    src: "/tmp/vector-{{ vector_version }}.tar.gz"
+    dest: /opt/vector
+    remote_src: true
